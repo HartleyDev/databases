@@ -5,7 +5,7 @@ var config = fs.readFileSync("../client/client/scripts/config.js");
 var app = fs.readFileSync("../client/client/scripts/app.js");
 
 var Users = require('./helpers/users-helper.js');
-var Rooms = require('./helpers/rooms-helper.js');
+var roomsHelper = require('./helpers/rooms-helper.js').roomsHelper;
 var messagesHelper = require('./helpers/messages-helper.js').messagesHelper;
 var messages = {};
 
@@ -91,8 +91,9 @@ exports.handler = function(request, response) {
       response.writeHead(201, headers);
       postHandler();
 
-    }else if(request.url === "/classes/room1"){
+    }else if(request.url === "/rooms"){
       response.writeHead(201, headers);
+
       postHandler();
     }
   }
