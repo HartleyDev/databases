@@ -2,10 +2,19 @@ var fs = require('fs');
 var root = fs.readFileSync("../client/client/index.html");
 var css = fs.readFileSync("../client/client/styles/styles.css");
 var config = fs.readFileSync("../client/client/scripts/config.js");
-var app = fs.readFileSync("../client/client/scripts/app.js")
-var messages = {
-  results: [],
-  objectId: 0
+var app = fs.readFileSync("../client/client/scripts/app.js");
+
+var Users = require('./helpers/users-helper.js');
+var Rooms = require('./helpers/rooms-helper.js');
+var messagesHelper = require('./helpers/messages-helper.js').messagesHelper;
+var messages = {};
+
+
+
+var helpersRouter = {
+  'users': Users,
+  'rooms': Rooms,
+  'messages': messagesHelper
 };
 
 /* You should implement your request handler function in this file.
@@ -32,19 +41,34 @@ exports.handler = function(request, response) {
     });
     request.on('end', function(){
       var message = JSON.parse(body);
-      messages.results.unshift(message);
-      response.end(JSON.stringify(messages.results));
+      messagesHelper.post(message);
+      response.end(JSON.stringify(message));
     });
   };
+
+
+
+
+
 
   if(request.method === "OPTIONS"){
     response.writeHead(200, headers);
     response.end();
 
   }else if(request.method === "GET"){
+      // var data = helpersRouter[reuest.url].get();
+
     if(request.url === "/classes/messages" ){
       response.writeHead(200, headers);
-      response.end(JSON.stringify(messages));
+      // console.log("from request Handler", mm);
+      messagesHelper.get(function(data){
+
+        response.end(JSON.stringify(data));
+        console.log("From Get", data);
+      });
+
+
+
     }else if(request.url === "/classes/room1"){
       response.writeHead(200,headers);
     }else if(request.url === "/" || request.url[1] === "?"){
@@ -53,10 +77,10 @@ exports.handler = function(request, response) {
       response.writeHead(200, {'Content-Type': 'text/css'});
       response.end(css);
     }else if(request.url === "/scripts/config.js") {
-      response.writeHead(200, {'Content-Type': "test/javascript"});
+      response.writeHead(200, {'Content-Type': "text/javascript"});
       response.end(config);
     }else if(request.url === "/scripts/app.js") {
-      response.writeHead(200, {'Content-Type': "test/javascript"});
+      response.writeHead(200, {'Content-Type': "text/javascript"});
       response.end(app);
     }else{
       response.writeHead(404, headers);
@@ -65,7 +89,6 @@ exports.handler = function(request, response) {
   }else if(request.method === "POST"){
     if(request.url === "/classes/messages" ){
       response.writeHead(201, headers);
-      messages.objectId++;
       postHandler();
 
     }else if(request.url === "/classes/room1"){

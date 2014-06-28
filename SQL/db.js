@@ -24,18 +24,21 @@ var newMessage = {text: "HELLO WORLD!", user_id: 1, room_id: 2, username: 'Joelc
 // });
 
 
-exports.messages = function(){
-  return {
-    get: function(room_id){
-      dbConnection.query('SELECT * FROM Messages WHERE room_id = '+room_id, function(err, result){
+exports.messages = {
+    get: function(cb){
+      dbConnection.query('SELECT * FROM Messages', function(err, result){
         if(err) throw err
-        console.log('Got all Messages for the room', result );
-      })
+          cb(result);
+          // console.log("Get Mesages Results",result);
+          // console.log('Got all Messages for the room', result );
+      });
     },
-    post: function(message){
+    post: function(message, cb){
+      console.log("IN DB");
       dbConnection.query('INSERT INTO Messages SET ?', message, function(err, result){
         if(err) throw err
-        console.log('Inserted', message, result );
+          cb(result);
+        // console.log('Inserted', message, result );
       })
     },
     find: function(id){
@@ -43,8 +46,10 @@ exports.messages = function(){
         if(err) throw err
         console.log('found message !', result );
       })
+    },
+    findBy: function(column, val){
+      dbConnection.query('SELECT * FROM Messages WHERE '+column+'='+val);
     }
-  }
 };
 
 exports.users = function(){

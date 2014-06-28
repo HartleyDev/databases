@@ -18,7 +18,7 @@ describe("Persistent Node Chat Server", function() {
     });
     dbConnection.connect();
 
-    var tablename = ""; // TODO: fill this out
+    var tablename = "Messages"; // TODO: fill this out
 
     /* Empty the db table before each test so that multiple tests
      * (or repeated runs of the tests) won't screw each other up: */
@@ -33,7 +33,11 @@ describe("Persistent Node Chat Server", function() {
     // Post a message to the node chat server:
     request({method: "POST",
              uri: "http://127.0.0.1:8080/classes/room1",
-             form: {username: "Valjean",
+             form: {
+                    user_id: 1,
+                    room_id: 2,
+                    roomname: "Lobby",
+                    username: "Valjean",
                     message: "In mercy's name, three days is all I need."}
             },
             function(error, response, body) {

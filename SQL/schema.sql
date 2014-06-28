@@ -20,7 +20,7 @@ USE chat;
 -- SET FOREIGN_KEY_CHECKS=0;
 
 -- ---
--- Table 'Messages'
+-- Table 'Messages'all
 --
 -- ---
 
