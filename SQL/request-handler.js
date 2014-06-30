@@ -4,7 +4,7 @@ var css = fs.readFileSync("../client/client/styles/styles.css");
 var config = fs.readFileSync("../client/client/scripts/config.js");
 var app = fs.readFileSync("../client/client/scripts/app.js");
 
-var Users = require('./helpers/users-helper.js');
+var UsersHelper = require('./helpers/users-helper.js');
 var roomsHelper = require('./helpers/rooms-helper.js').roomsHelper;
 var messagesHelper = require('./helpers/messages-helper.js').messagesHelper;
 var messages = {};
@@ -12,10 +12,12 @@ var messages = {};
 
 
 var helpersRouter = {
-  'users': Users,
-  'rooms': Rooms,
+  'users': UsersHelper,
+  'rooms': roomsHelper,
   'messages': messagesHelper
 };
+
+
 
 /* You should implement your request handler function in this file.
  * And hey! This is already getting passed to http.createServer()
@@ -23,6 +25,7 @@ var helpersRouter = {
  * You'll have to figure out a way to export this function from
  * this file and include it in basic-server.js so that it actually works.
  * *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html. */
+
 
 exports.handler = function(request, response) {
   /* the 'request' argument comes from nodes http module. It includes info about the
@@ -41,10 +44,14 @@ exports.handler = function(request, response) {
     });
     request.on('end', function(){
       var message = JSON.parse(body);
-      messagesHelper.post(message);
+      // Messages Post needs this line
+      // messagesHelper.post(message);
+      roomsHelper.post(message);
       response.end(JSON.stringify(message));
     });
   };
+
+
 
 
 
@@ -64,7 +71,7 @@ exports.handler = function(request, response) {
       messagesHelper.get(function(data){
 
         response.end(JSON.stringify(data));
-        console.log("From Get", data);
+        // console.log("From Get", data);
       });
 
 

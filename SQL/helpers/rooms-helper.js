@@ -1,15 +1,15 @@
 var db = require('../db.js');
-
+messages =
 exports.roomsHelper = {
     get: function(callback){
       db.rooms.get(function(data){
         callback(data);
       });
     },
-    post: function(room){
+    post: function(room, callback){
       // var user = db.users.find(user_id);
       db.rooms.post(room, function(result){
-        // console.log("from helper", result)
+        callback(result);
       });
     },
     find: function(message_id){
@@ -21,7 +21,7 @@ exports.roomsHelper = {
     findByUserId: function(user_id){
       return db.messages.findBy('user_id', user_id);
     },
-    destory: function(){},
+    destroy: function(){},
 }
 
 

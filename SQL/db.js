@@ -23,7 +23,6 @@ var newMessage = {text: "HELLO WORLD!", user_id: 1, room_id: 2, username: 'Joelc
 //   console.log("GOT IT");
 // });
 
-
 exports.messages = {
     get: function(cb){
       dbConnection.query('SELECT * FROM Messages', function(err, result){
@@ -81,35 +80,38 @@ exports.users = function(){
   }
 };
 
-exports.rooms = function(){
-  return {
-    get: function(){
-      dbConnection.query('SELECT * FROM Rooms', function(err, result){
-        if(err) throw err
-        console.log('got all rooms', result );
-      })
-    },
-    getByUserId: function(user_id){
-      dbConnection.query('SELECT * FROM Rooms WHERE user_id = '+user_id, function(err, result){
-        if(err) throw err
-        console.log('found room by user_id', result );
-      })
-    },
-    post: function(user){
-      dbConnection.query('INSERT INTO Rooms SET ?', user, function(err, result){
-        if(err) throw err
-        console.log('Inserted Room', result );
-      })
-    },
-    find: function(id){
-      dbConnection.query('SELECT * FROM Rooms WHERE id ='+id, function(err, result){
-        if(err) throw err
-        console.log('found room', result );
-      })
-    }
+
+exports.rooms = {
+  get: function(callback){
+    dbConnection.query('SELECT * FROM Rooms', function(err, result){
+      if(err) throw err
+        callback(results)
+      console.log('got all rooms', result );
+    })
+  },
+  post: function(room){
+    dbConnection.query('INSERT INTO Rooms SET ?', room, function(err, result){
+      console.log('Inserted Room', result );
+      // if(err) throw err
+    })
+  },
+  update: function(id){
+
+  },
+  getByUserId: function(user_id){
+    dbConnection.query('SELECT * FROM Rooms WHERE user_id = '+user_id, function(err, result){
+      if(err) throw err
+      console.log('found room by user_id', result );
+    })
+  },
+  find: function(id){
+    dbConnection.query('SELECT * FROM Rooms WHERE id ='+id, function(err, result){
+      if(err) throw err
+      console.log('found room', result );
+    })
   }
 };
-
+// exports.rooms.post({user_id: 1, users_count: 1, roomname: 'thisisa room'});
 
 
 

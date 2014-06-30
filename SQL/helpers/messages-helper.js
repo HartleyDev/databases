@@ -22,7 +22,7 @@ exports.messagesHelper = {
     findByUserId: function(user_id){
       return db.messages.findBy('user_id', user_id);
     },
-    destory: function(){},
+    destroy: function(){},
 }
 
 

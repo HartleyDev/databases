@@ -1,0 +1,23 @@
+{
+  "name": "2014-06-databases",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheMadKoder/2014-06-databases.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheMadKoder/2014-06-databases/issues"
+  },
+  "homepage": "https://github.com/TheMadKoder/2014-06-databases",
+  "dependencies": {
+    "chai": "^1.9.1",
+    "mocha": "^1.20.1"
+  }
+}
